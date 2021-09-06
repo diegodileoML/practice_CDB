@@ -1,9 +1,26 @@
 package basic
 
-import "context"
+import (
+	"context"
+
+	"github.com/diegodileoML/practice_CDB/pkg/web"
+)
 
 func (s *service) Store(ctx context.Context, u User) (User, error) {
-	return s.Storage.Store(ctx, u)
+	if s.Exists(ctx, u.ID) {
+		return User{}, &web.Error{Status: 409, Code: "409", Message: "ID de usuario repetido"}
+	}
+
+	usr, err := s.Storage.Store(ctx, u)
+	if err != nil {
+		return User{}, err
+	}
+	idUserNuevo, err := s.GetByID(ctx, usr.ID)
+	if err != nil {
+		return User{}, err
+	}
+
+	return idUserNuevo, nil
 }
 
 func (s *service) Update(ctx context.Context, u User) error {
