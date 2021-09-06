@@ -26,7 +26,12 @@ func (s *service) GetAll(ctx context.Context) ([]User, error) {
 }
 
 func (s *service) GetByID(ctx context.Context, id int) (User, error) {
-	return s.Storage.GetByID(ctx, id)
+	s.GetAll(ctx)
+	usuario, err := s.Storage.GetByID(ctx, id)
+	if err != nil {
+		return User{}, err
+	}
+	return usuario, nil
 }
 
 func (s *service) Exists(ctx context.Context, id int) bool {

@@ -1,4 +1,4 @@
-package reader
+package rest
 
 import (
 	"net/http"
@@ -8,17 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type reader_handler struct {
-	basicSrv basic.Service
-}
-
-func NewHandler(basic_serv *basic.Service) *reader_handler {
-	return &reader_handler{
-		basicSrv: *basic_serv,
-	}
-}
-
-func (h *reader_handler) GetAll() gin.HandlerFunc {
+func (h *handler) GetAll() gin.HandlerFunc {
 	type response struct {
 		Data []basic.User `json:"data"`
 	}
@@ -40,7 +30,7 @@ func (h *reader_handler) GetAll() gin.HandlerFunc {
 	}
 }
 
-func (h *reader_handler) GetByID() gin.HandlerFunc {
+func (h *handler) GetByID() gin.HandlerFunc {
 	h.GetAll()
 	type response struct {
 		Data basic.User `json:"data"`

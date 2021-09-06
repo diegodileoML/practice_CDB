@@ -1,4 +1,4 @@
-package writer
+package rest
 
 import (
 	"encoding/json"
@@ -11,17 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type writer_handler struct {
-	basicSrv basic.Service
-}
-
-func NewHandler(basic_serv *basic.Service) *writer_handler {
-	return &writer_handler{
-		basicSrv: *basic_serv,
-	}
-}
-
-func (h *writer_handler) Store() gin.HandlerFunc {
+func (h *handler) Store() gin.HandlerFunc {
 	type response struct {
 		Data basic.User `json:"data"`
 	}
@@ -47,7 +37,7 @@ func (h *writer_handler) Store() gin.HandlerFunc {
 		c.JSON(http.StatusCreated, &response{Data: newUser})
 	}
 }
-func (h *writer_handler) Update() gin.HandlerFunc {
+func (h *handler) Update() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 		id, err := strconv.ParseInt(c.Param("id"), 10, 64)
@@ -86,7 +76,7 @@ func (h *writer_handler) Update() gin.HandlerFunc {
 		c.JSON(http.StatusOK, nil)
 	}
 }
-func (h *writer_handler) Delete() gin.HandlerFunc {
+func (h *handler) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {}
 }
 
