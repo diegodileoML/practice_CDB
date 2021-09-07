@@ -9,7 +9,6 @@ import (
 const (
 	SAVE ="INSERT INTO User(first_name,last_name,dni,birth_date,email, nacionality,address) VALUES (?,?,?,?,?,?,?)"
 	GET ="SELECT id,first_name,last_name,dni,birth_date,email, nacionality,address FROM User WHERE id=?"
-
 )
 var users []basic.User = []basic.User{
 	{

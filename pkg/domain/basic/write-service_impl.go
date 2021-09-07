@@ -8,6 +8,7 @@ import (
 )
 
 func (s *service) Store(ctx context.Context, u User) (User, error) {
+
 	if s.Exists(ctx, u.ID) {
 		return User{}, &web.Error{Status: 409, Code: "409", Message: "ID de usuario repetido"}
 	}
@@ -16,12 +17,15 @@ func (s *service) Store(ctx context.Context, u User) (User, error) {
 	if err != nil {
 		return User{}, err
 	}
+
+	/*
 	idUserNuevo, err := s.GetByID(ctx, usr.ID)
 	if err != nil {
 		return User{}, err
 	}
+	*/
 
-	return idUserNuevo, nil
+	return usr, nil
 }
 
 func (s *service) Update(ctx context.Context, u User) error {
