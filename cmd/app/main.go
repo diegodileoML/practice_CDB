@@ -20,10 +20,12 @@ func main() {
 	userHandler := rest.NewHandler(&userService)
 	userRoutes := router.Group("api/practice/users")
 	{
-		userRoutes.POST("/",userHandler.Store())
-		userRoutes.GET("/",userHandler.GetAll())
-		userRoutes.GET("/:id",userHandler.GetByID())
-		userRoutes.PUT("/:id",userHandler.Update())
-		userRoutes.DELETE("/:id",userHandler.Delete())
+		userRoutes.POST("/", userHandler.Store())
+		userRoutes.GET("/", userHandler.GetAll())
+		userRoutes.GET("/:id", userHandler.GetByID())
+		userRoutes.PUT("/:id", userHandler.Update())
+		userRoutes.DELETE("/:id", userHandler.Delete())
 	}
+
+	router.Run()
 }

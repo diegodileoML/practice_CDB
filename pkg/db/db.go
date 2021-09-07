@@ -20,7 +20,7 @@ func init() {
 	password := os.Getenv("MYSQL_PASSWORD")
 	host := os.Getenv("MYSQL_HOST")
 	port := os.Getenv("MYSQL_PORT")
-	dataSource := fmt.Sprintf("%s:%s@tcp(%s:%s)/warehouse", username, password, host, port)
+	dataSource := fmt.Sprintf("%s:%s@tcp(%s:%s)/practice_CDB", username, password, host, port)
 	var err error
 	StorageDB, err = sql.Open("mysql", dataSource)
 	if err != nil {
