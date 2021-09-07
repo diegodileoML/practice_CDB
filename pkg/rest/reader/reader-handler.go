@@ -41,7 +41,7 @@ func (h *handler) GetByID() gin.HandlerFunc {
 		usuario, err := h.basicSrv.GetByID(c, userID)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
+				"error": "Usuario con ese ID no se encuentra",
 			})
 			return
 		} else {
