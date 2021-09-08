@@ -19,34 +19,34 @@ func NewFakeContainer() *fakeContainer{
 }
 
 type fakeStorage struct{
-	GetAllFake func(ctx context.Context) ([]User, error)
-	GetByIDFake func(ctx context.Context, id int) (User, error)
-	ExistsFake func(ctx context.Context, id int) bool
-	StoreFake func(ctx context.Context, u User) (User, error)
-	UpdateFake func(ctx context.Context, u User) error
-	DeleteFake func(ctx context.Context, id int) error
+	GetAllFn func(ctx context.Context) ([]User, error)
+	GetByIDFn func(ctx context.Context, id int) (User, error)
+	ExistsFn func(ctx context.Context, id int) bool
+	StoreFn func(ctx context.Context, u User) (User, error)
+	UpdateFn func(ctx context.Context, u User) error
+	DeleteFn func(ctx context.Context, id int) error
 }
 
 func (r *fakeStorage) GetAll(ctx context.Context) ([]User, error){
-	return r.GetAllFake(ctx)
+	return r.GetAllFn(ctx)
 }
 
 func (r *fakeStorage) GetByID(ctx context.Context, id int) (User, error){
-	return r.GetByIDFake(ctx,id)
+	return r.GetByIDFn(ctx,id)
 }
 
 func (r *fakeStorage) Exists(ctx context.Context, id int) bool{
-	return r.ExistsFake(ctx,id)
+	return r.ExistsFn(ctx,id)
 }
 
 func (r *fakeStorage) Store(ctx context.Context, u User) (User, error){
-	return r.StoreFake(ctx,u)
+	return r.StoreFn(ctx,u)
 }
 
 func (r *fakeStorage) Update(ctx context.Context, u User) error{
-	return r.UpdateFake(ctx,u)
+	return r.UpdateFn(ctx,u)
 }
 
 func (r *fakeStorage) Delete(ctx context.Context, id int) error{
-	return r.DeleteFake(ctx,id)
+	return r.DeleteFn(ctx,id)
 }

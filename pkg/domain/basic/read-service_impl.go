@@ -26,7 +26,7 @@ func (s *service) GetAll(ctx context.Context) ([]User, error) {
 }
 
 func (s *service) GetByID(ctx context.Context, id int) (User, error) {
-	s.GetAll(ctx)
+	//s.GetAll(ctx)
 	usuario, err := s.Storage.GetByID(ctx, id)
 	if err != nil {
 		return User{}, err
