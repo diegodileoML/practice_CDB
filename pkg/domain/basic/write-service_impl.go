@@ -31,20 +31,23 @@ func (s *service) Store(ctx context.Context, u User) (User, error) {
 }
 
 func (s *service) Update(ctx context.Context, u User) error {
+	/*
 	_, err := s.GetAll(ctx)
 	if err != nil {
 		return web.NewError(http.StatusNotFound, err.Error())
 	}
+	*/
 
-	err = s.Storage.Update(ctx, u)
+	err := s.Storage.Update(ctx, u)
 	if err != nil {
 		return web.NewError(http.StatusConflict, err.Error())
 	}
+	/*
 	_, err = s.Storage.GetByID(ctx, u.ID)
 	if err != nil {
 		return web.NewError(http.StatusNotFound, err.Error())
 	}
-
+	 */
 	return nil
 }
 

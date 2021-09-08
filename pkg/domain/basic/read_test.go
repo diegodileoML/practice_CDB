@@ -62,9 +62,9 @@ func TestService_GetAll_Error(t *testing.T) {
 func TestService_GetByID_Success(t *testing.T) {
 	ctx,fc,s:= IniciarDependencias()
 
-	fc.Storage.GetByIDFn = func(ctx context.Context,id int) (User,error){
-		assert.Equal(t,1,id)
-		return User{ID:1},nil
+	fc.Storage.GetByIDFn = func(ctx context.Context,id int) (User,error) {
+		assert.Equal(t, 1, id)
+		return User{ID: 1}, nil
 	}
 
 	usr ,err:= s.GetByID(ctx,1)
@@ -90,6 +90,7 @@ func TestService_Exists(t *testing.T) {
 	ctx, fc, s:= IniciarDependencias()
 
 	fc.Storage.ExistsFn = func(ctx context.Context, id int) bool {
+		assert.Equal(t,1,id)
 		return false
 	}
 
