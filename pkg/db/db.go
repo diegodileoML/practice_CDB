@@ -1,5 +1,6 @@
 package db
 
+/*
 import (
 	"database/sql"
 	"fmt"
@@ -31,3 +32,5 @@ func init() {
 	}
 	log.Println("database Configured")
 }
+
+ */

@@ -2,6 +2,7 @@ package basic
 
 import "context"
 
+/*
 func (s *service) GetAll(ctx context.Context) ([]User, error) {
 
 	usr, err := s.Storage.GetAll(ctx)
@@ -24,8 +25,9 @@ func (s *service) GetAll(ctx context.Context) ([]User, error) {
 	}
 	return usr, err
 }
+ */
 
-func (s *service) GetByID(ctx context.Context, id int) (User, error) {
+func (s *service) GetByID(ctx context.Context, id string) (User, error) {
 	//s.GetAll(ctx)
 	usuario, err := s.Storage.GetByID(ctx, id)
 	if err != nil {
@@ -34,6 +36,6 @@ func (s *service) GetByID(ctx context.Context, id int) (User, error) {
 	return usuario, nil
 }
 
-func (s *service) Exists(ctx context.Context, id int) bool {
+func (s *service) Exists(ctx context.Context, id string) bool {
 	return s.Storage.Exists(ctx, id)
 }

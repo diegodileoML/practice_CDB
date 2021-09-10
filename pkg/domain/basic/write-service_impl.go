@@ -7,7 +7,7 @@ import (
 	"github.com/diegodileoML/practice_CDB/pkg/web"
 )
 
-func (s *service) Store(ctx context.Context, u User) (User, error) {
+func (s *service) Store(ctx context.Context, u User) error {
 
 	/*
 	if s.Exists(ctx, u.ID) {
@@ -15,9 +15,9 @@ func (s *service) Store(ctx context.Context, u User) (User, error) {
 	}
 	 */
 
-	usr, err := s.Storage.Store(ctx, u)
+	err := s.Storage.Store(ctx, u)
 	if err != nil {
-		return User{}, err
+		return err
 	}
 
 	/*
@@ -27,7 +27,7 @@ func (s *service) Store(ctx context.Context, u User) (User, error) {
 	}
 	*/
 
-	return usr, nil
+	return nil
 }
 
 func (s *service) Update(ctx context.Context, u User) error {
@@ -51,7 +51,7 @@ func (s *service) Update(ctx context.Context, u User) error {
 	return nil
 }
 
-func (s *service) Delete(ctx context.Context, id int) error {
+func (s *service) Delete(ctx context.Context, id string) error {
 	_, err := s.Storage.GetByID(ctx, id)
 	if err != nil {
 		return web.NewError(http.StatusNotFound, err.Error())

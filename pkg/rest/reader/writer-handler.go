@@ -3,48 +3,59 @@ package rest
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/mercadolibre/fury_asset-mgmt-core-libs/pkg/base/logger"
 	"net/http"
-	"strconv"
 
 	"github.com/diegodileoML/practice_CDB/pkg/domain/basic"
-	"github.com/diegodileoML/practice_CDB/pkg/web"
-	"github.com/gin-gonic/gin"
+
+	"github.com/mercadolibre/fury_go-core/pkg/web"
 )
 
-func (h *handler) Store() gin.HandlerFunc {
+func (h *handler) Store(w http.ResponseWriter, r *http.Request) error{ // gin.HandlerFunc {
+	/*
 	type response struct {
 		Data basic.User `json:"data"`
 	}
 
-	return func(c *gin.Context) {
-		var req basic.User
-		err := c.Bind(&req)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		err = ValidateFields(&req)
-		if err != nil {
-			c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
-			return
-		}
+	 */
 
-		newUser, err := h.basicSrv.Store(c, req)
-		if err != nil {
-			c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
-			return
-		}
-		c.JSON(http.StatusCreated, &response{Data: newUser})
+	//return func(c *gin.Context) {
+	ctx := r.Context()
+	//var req basic.User
+	//err := c.Bind(&req)
+	usrID,err := parseUserFromRequestBODY(ctx,r)
+	if err != nil {
+		//c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return err
 	}
-}
-func (h *handler) Update() gin.HandlerFunc {
+	err = ValidateFields(usrID)
+	if err != nil {
+		//c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
+		return err
+	}
 
-	return func(c *gin.Context) {
+	err = h.basicSrv.Store(ctx,*usrID)
+	if err != nil {
+		//c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
+		logger.Error(ctx, "create-user-error", logger.Tag{
+			"error": err,
+		})
+		return err
+	}
+	//c.JSON(http.StatusCreated, &response{Data: newUser})
+	return web.RespondJSON(w, "user registered successfully", http.StatusCreated)
+}
+
+func (h *handler) Update(w http.ResponseWriter, r *http.Request) error {//gin.HandlerFunc {
+
+	/*
+	//return func(c *gin.Context) {
 		id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": "invalid ID"})
 			return
 		}
+
 		var req basic.User
 		if err := c.Bind(&req); err != nil {
 			c.JSON(http.StatusNotFound, gin.H{
@@ -75,10 +86,33 @@ func (h *handler) Update() gin.HandlerFunc {
 		}
 		c.JSON(http.StatusOK, nil)
 	}
+	 */
+	ctx:= r.Context()
+	usrID,err := parseUserFromRequestBODY(ctx,r)
+	if err != nil {
+		return err
+	}
+	err= h.basicSrv.Update(ctx,*usrID)
+	if err!=nil{
+		return err
+	}
+
+	return web.RespondJSON(w, "user actualized successfully", http.StatusOK)
 }
-func (h *handler) Delete() gin.HandlerFunc {
-	return func(c *gin.Context) {}
+
+func (h *handler) Delete(w http.ResponseWriter, r *http.Request) error {
+	ctx:= r.Context()
+	usrID, err := parseUserFromRequestID(r)
+	if err!=nil{
+		return err
+	}
+	err = h.basicSrv.Delete(ctx,usrID)
+	if err!=nil{
+		return err
+	}
+	return web.RespondJSON(w, "user deleted successfully", http.StatusNoContent)
 }
+
 
 func UserToMap(user *basic.User) (structMap map[string]interface{}) {
 
@@ -90,6 +124,7 @@ func UserToMap(user *basic.User) (structMap map[string]interface{}) {
 
 }
 
+/*
 func MapToUser(structMap map[string]interface{}) (user *basic.User) {
 
 	byteCode, _ := json.Marshal(structMap)
@@ -99,6 +134,7 @@ func MapToUser(structMap map[string]interface{}) (user *basic.User) {
 	return
 
 }
+*/
 
 func ValidateFields(request *basic.User) error {
 

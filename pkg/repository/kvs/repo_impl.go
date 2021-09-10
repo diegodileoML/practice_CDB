@@ -1,15 +1,17 @@
-package ds
+package kvs
 
 import (
 	"context"
 
 	"github.com/diegodileoML/practice_CDB/pkg/domain/basic"
-	"github.com/diegodileoML/practice_CDB/pkg/web"
 )
+/*
 const (
 	SAVE ="INSERT INTO User(first_name,last_name,dni,birth_date,email, nacionality,address) VALUES (?,?,?,?,?,?,?)"
 	GET ="SELECT id,first_name,last_name,dni,birth_date,email, nacionality,address FROM User WHERE id=?"
 )
+*/
+/*
 var users []basic.User = []basic.User{
 	{
 		ID:          1,
@@ -33,18 +35,24 @@ var users []basic.User = []basic.User{
 	},
 }
 
+ */
+
+
+/*
 func (r repository) GetAll(ctx context.Context) ([]basic.User, error) {
 	return users, nil
 }
-func (r repository) GetByID(ctx context.Context, id int) (basic.User, error) {
-	/*
-	for _, u := range users {
-		if u.ID == id {
-			return u, nil
-		}
+ */
+func (r repository) GetByID(ctx context.Context, id string) (basic.User, error) {
+	user := &basic.User{}
+	err := r.repo.Get(ctx, id, user)
+	if err!=nil{
+		return basic.User{}, err
 	}
-	return basic.User{}, &web.Error{Status: 404, Code: "404", Message: "Not Found"}
-	 */
+
+	return *user,nil
+
+	/*
 	row:=r.db.QueryRow(GET,id)
 	u:=basic.User{}
 	err:=row.Scan(&u.ID,&u.FirstName,&u.LastName,&u.Dni,&u.BirthDate,&u.Email,&u.Nacionality,&u.Address)
@@ -52,22 +60,22 @@ func (r repository) GetByID(ctx context.Context, id int) (basic.User, error) {
 		return basic.User{},err
 	}
 	return u,nil
+	 */
 }
-func (r repository) Exists(ctx context.Context, id int) bool {
-	for _, u := range users {
-		if u.ID == id {
-			return true
-		}
+func (r repository) Exists(ctx context.Context, id string) bool {
+	err := r.repo.Get(ctx, id,nil)
+	if err!=nil {
+		return false
 	}
-	return false
+	return true
 }
-func (r repository) Store(ctx context.Context, u basic.User) (basic.User, error) {
+func (r repository) Store(ctx context.Context, u basic.User) error {
 	/*
 	id := len(users) + 1
 	u.ID = id
 	users = append(users, u)
 	return u, nil
-	*/
+
 	stmt, err:= r.db.Prepare(SAVE)
 	if err!=nil {
 		return basic.User{},err
@@ -84,8 +92,13 @@ func (r repository) Store(ctx context.Context, u basic.User) (basic.User, error)
 
 	return user,nil
 
+	 */
+	return r.repo.Set(ctx,u.ID,u)
+
 }
 func (r repository) Update(ctx context.Context, u basic.User) error {
+
+	/*
 	for i, usuarios := range users {
 		if usuarios.ID == u.ID {
 			users[i] = u
@@ -93,13 +106,19 @@ func (r repository) Update(ctx context.Context, u basic.User) error {
 		}
 	}
 	return &web.Error{Status: 404, Code: "404", Message: "Not Updated"}
+
+	 */
+	return r.repo.Set(ctx,u.ID,u)
 }
-func (r repository) Delete(ctx context.Context, id int) error {
-	for i, usuarios := range users {
+func (r repository) Delete(ctx context.Context, id string) error {
+	/*for i, usuarios := range users {
 		if usuarios.ID == id {
 			users = append(users[:i], users[i+1:]...)
 			return nil
 		}
 	}
 	return &web.Error{Status: 404, Code: "404", Message: "Not Deleted"}
+
+	 */
+	return r.repo.Delete(ctx,id)
 }
