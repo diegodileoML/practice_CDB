@@ -26,5 +26,5 @@ func (h *handler) GetByID(w http.ResponseWriter, r *http.Request) error {
 		})
 		return err
 	}
-	return web.RespondJSON(w,usuario,http.StatusOK)
+	return web.RespondJSON(w,&usuario,http.StatusOK)
 }

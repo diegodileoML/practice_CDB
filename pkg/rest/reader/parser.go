@@ -16,7 +16,7 @@ var (
 
 func parseUserFromRequestID(r *http.Request) (string, error) { //nolint
 	// cdbID
-	usrID := web.Params(r)["user"]
+	usrID := web.Params(r)["id"]
 	if usrID == "" {
 		return "", errorInvalidRequest.WithMessage("empty user")
 	}
@@ -41,34 +41,15 @@ func parseUserFromRequestBODY(ctx context.Context, r *http.Request) (*basic.User
 		Address: request.Address,
 	}
 
-	/*
+
 	// user validation
-	if err := rest.ValidateFields(); err != nil {
+	if err := isValid(*user); err != nil {
 		return nil, errorInvalidRequest.WithError(err)
 	}
-	 */
+
 
 	return user, nil
 }
-
-/*
-func parseSearchRequestFromRequest(ctx context.Context, r *http.Request, request *Request) error {
-	err := readBody(ctx, r, request)
-	if err != nil {
-		return err
-	}
-
-	err = isValid(request.SearchRequest)
-	if err != nil {
-		logger.Error(ctx, "Search request is empty", logger.Tag{"error": err})
-		return err
-	}
-
-
-
-	return nil
-}
-*/
 
 func readBody(ctx context.Context, r *http.Request, v interface{}) error {
 	b, err := ioutil.ReadAll(r.Body)
@@ -89,14 +70,14 @@ func readBody(ctx context.Context, r *http.Request, v interface{}) error {
 	return nil
 }
 
-/*
-func isValid(request basic.SearchRequest) error {
-	if request.FundID == nil && request.UserID == nil && request.Status == nil {
-		return errors.New("invalid_search_request", "Search request must has a param", errors.StatusBadRequest)
+
+func isValid(request basic.User) error {
+	if request.ID == ""  {
+		return errors.New("invalid", "User request must has a param", errors.StatusBadRequest)
 	}
 	return nil
 }
 
- */
+
 
 

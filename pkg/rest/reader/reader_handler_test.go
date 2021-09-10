@@ -15,12 +15,12 @@ import (
 func TestHandler_Get_Success(t *testing.T) {
 	h,fbs := IniciarDependencias()
 
-	ctx := test.FakeContext{ValueData: web.URIParams{"user": "test-id"}}
-	r, _ := http.NewRequestWithContext(ctx, http.MethodGet, "localhost:8080/{user}", nil)
+	ctx := test.FakeContext{ValueData: web.URIParams{"id": "test-id"}}
+	r, _ := http.NewRequestWithContext(ctx, http.MethodGet, "localhost:8080/{id}", nil)
 	w := httptest.NewRecorder()
 
-	fbs.GetByIDFn = func(ctx context.Context, id string) (basic.User, error) {
-		return basic.User{
+	fbs.GetByIDFn = func(ctx context.Context, id string) (*basic.User, error) {
+		return &basic.User{
 			ID:"1",
 			FirstName: "diego",
 			LastName: "dileo",
@@ -41,12 +41,12 @@ func TestHandler_Get_Success(t *testing.T) {
 func TestHandler_Get_Error(t *testing.T) {
 	h,fbs := IniciarDependencias()
 
-	ctx := test.FakeContext{ValueData: web.URIParams{"user": "test-id"}}
-	r, _ := http.NewRequestWithContext(ctx, http.MethodGet, "localhost:8080/{user}", nil)
+	ctx := test.FakeContext{ValueData: web.URIParams{"id": "test-id"}}
+	r, _ := http.NewRequestWithContext(ctx, http.MethodGet, "localhost:8080/{id}", nil)
 	w := httptest.NewRecorder()
 
-	fbs.GetByIDFn = func(ctx context.Context, id string) (basic.User, error) {
-		return basic.User{},errors.New("forced error")
+	fbs.GetByIDFn = func(ctx context.Context, id string) (*basic.User, error) {
+		return nil,errors.New("forced error")
 	}
 
 	err:= h.GetByID(w,r)

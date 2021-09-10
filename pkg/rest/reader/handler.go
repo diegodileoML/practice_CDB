@@ -9,8 +9,8 @@ type handler struct {
 }
 
 
-func NewHandler(basic_serv basic.Service) handler {
+func NewHandler(bs basic.Service) handler {
 	return handler{
-		basicSrv: basic_serv,
+		basicSrv: bs,
 	}
 }

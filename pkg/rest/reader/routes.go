@@ -8,10 +8,13 @@ import (
 
 func (h *handler) RouteURLs(app *fury.Application) {
 	group := app.Router.Group("/api/practice/users")
-	group.Post("/", h.Store, httpcore.Middle(app))
-	group.Get("/:id",h.GetByID,httpcore.Middle(app))
-	group.Put("/:id",h.Update,httpcore.Middle(app))
-	group.Delete("/:id",h.Delete,httpcore.Middle(app))
+	{
+		group.Post("/", h.Store, httpcore.Middle(app))
+		group.Get("/:id",h.GetByID,httpcore.Middle(app))
+		group.Put("/:id",h.Update,httpcore.Middle(app))
+		group.Delete("/:id",h.Delete,httpcore.Middle(app))
+	}
+
 }
 
 // API constructs an http.Handler with all application routes defined.

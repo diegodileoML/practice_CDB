@@ -29,8 +29,10 @@ func (h *handler) Store(w http.ResponseWriter, r *http.Request) error{
 			"error": err,
 		})
 		return err
+	} else {
+		return web.RespondJSON(w, "user registered successfully", http.StatusCreated)
 	}
-	return web.RespondJSON(w, "user registered successfully", http.StatusCreated)
+
 }
 
 func (h *handler) Update(w http.ResponseWriter, r *http.Request) error {
