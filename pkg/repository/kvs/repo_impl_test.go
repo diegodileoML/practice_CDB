@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
+
 func IniciarDependenciasRepo() (context.Context, repository, *fakeRepo){
 	ctx := context.Background()
 	fr := fakeRepo{}
@@ -19,14 +20,14 @@ func TestRepository_GetByID_Success(t *testing.T) {
 
 	fr.GetFn = func(ctx context.Context, key string, value interface{}) error {
 		if key == "1"{
-			test.UpdateParam(value, basic.User{ID: "1"})
+			test.UpdateParam(value, User{ID: "1"})
 		}
 		return nil
 	}
 
 	usr, err := r.GetByID(ctx,"1")
 
-	assert.Equal(t,usr,basic.User{ID:"1"})
+	assert.Equal(t,&basic.User{ID:"1"},usr)
 	assert.Nil(t,err)
 }
 

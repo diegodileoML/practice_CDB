@@ -16,7 +16,7 @@ var (
 
 func parseUserFromRequestID(r *http.Request) (string, error) { //nolint
 	// cdbID
-	usrID := web.Params(r)["usuario"]
+	usrID := web.Params(r)["user"]
 	if usrID == "" {
 		return "", errorInvalidRequest.WithMessage("empty user")
 	}

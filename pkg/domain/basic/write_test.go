@@ -10,29 +10,27 @@ import (
 func TestService_Store_Success(t *testing.T) {
 	ctx, fc, s:= IniciarDependencias()
 
-	fc.Storage.StoreFn = func(ctx context.Context, u User) error {
+	fc.Storage.StoreFn = func(ctx context.Context, u *User) error {
 		assert.Equal(t,"1",u.ID)
 		return nil
 	}
 
-	err:=s.Store(ctx,User{ID:"1"})
+	err:=s.Store(ctx,&User{ID:"1"})
 
 	assert.Nil(t,err)
-	//assert.Equal(t,User{ID:"1"},usr)
 
 }
 
 func TestService_Store_Error(t *testing.T) {
 	ctx, fc, s:= IniciarDependencias()
 
-	fc.Storage.StoreFn = func(ctx context.Context, u User)  error {
+	fc.Storage.StoreFn = func(ctx context.Context, u *User)  error {
 		return errors.New("forced error")
 	}
 
-	err:=s.Store(ctx,User{ID:"1"})
+	err:=s.Store(ctx,&User{ID:"1"})
 
 	assert.EqualError(t,err,"forced error")
-	//assert.Empty(t,usr)
 }
 
 func TestService_Update_Success(t *testing.T) {
@@ -43,13 +41,6 @@ func TestService_Update_Success(t *testing.T) {
 		u = User{ID:"1",Dni: 456}
 		return nil
 	}
-	/*
-	fc.Storage.GetByIDFn = func(ctx context.Context,id int) (User,error) {
-		assert.Equal(t, 1, id)
-		return User{ID: 1,Dni: 456}, nil
-	}
-	 */
-
 	err:=s.Update(ctx,User{ID:"1",Dni: 456})
 
 	assert.Nil(t, err)
@@ -63,13 +54,6 @@ func TestService_Update_Error(t *testing.T) {
 		u = User{ID:"1",Dni: 456}
 		return errors.New("forced error")
 	}
-	/*
-	fc.Storage.GetByIDFn = func(ctx context.Context,id int) (User,error) {
-		assert.Equal(t, 1, id)
-		return User{ID: 1,Dni: 456}, nil
-	}
-	 */
-
 	err:=s.Update(ctx,User{ID:"1",Dni: 456})
 
 	assert.EqualError(t, err,"conflict: forced error")
@@ -77,9 +61,9 @@ func TestService_Update_Error(t *testing.T) {
 
 func TestService_Delete_Success(t *testing.T) {
 	ctx, fc,s := IniciarDependencias()
-	fc.Storage.GetByIDFn = func(ctx context.Context,id string) (User,error) {
+	fc.Storage.GetByIDFn = func(ctx context.Context,id string) (*User,error) {
 		assert.Equal(t, "1", id)
-		return User{ID: "1"}, nil
+		return &User{ID: "1"}, nil
 	}
 	fc.Storage.DeleteFn = func(ctx context.Context, id string) error {
 		assert.Equal(t, "1", id)
@@ -93,9 +77,9 @@ func TestService_Delete_Success(t *testing.T) {
 
 func TestService_Delete_Error(t *testing.T) {
 	ctx, fc,s := IniciarDependencias()
-	fc.Storage.GetByIDFn = func(ctx context.Context,id string) (User,error) {
+	fc.Storage.GetByIDFn = func(ctx context.Context,id string) (*User,error) {
 		assert.Equal(t, "1", id)
-		return User{ID: "1"}, nil
+		return &User{ID: "1"}, nil
 	}
 	fc.Storage.DeleteFn = func(ctx context.Context, id string) error {
 		assert.Equal(t, "1", id)
@@ -110,9 +94,9 @@ func TestService_Delete_Error(t *testing.T) {
 func TestService_Delete_Error_IDinexistente(t *testing.T) {
 	ctx, fc,s := IniciarDependencias()
 
-	fc.Storage.GetByIDFn = func(ctx context.Context,id string) (User,error) {
+	fc.Storage.GetByIDFn = func(ctx context.Context,id string) (*User,error) {
 		assert.Equal(t, "2", id)
-		return User{}, errors.New("ID inexistente")
+		return nil, errors.New("ID inexistente")
 	}
 	fc.Storage.DeleteFn = func(ctx context.Context, id string) error {
 		assert.Equal(t, "2", id)

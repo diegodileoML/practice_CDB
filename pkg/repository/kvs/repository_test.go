@@ -7,7 +7,6 @@ import (
 	"testing"
 )
 
-
 type fakeRepo struct{
 	GetFn func(ctx context.Context, key string, value interface{}) error
 
@@ -23,7 +22,7 @@ type fakeRepo struct{
 }
 
 func (fr fakeRepo) Get(ctx context.Context, key string, value interface{}) error {
-	return fr.SetFn(ctx,key,value)
+	return fr.GetFn(ctx,key,value)
 }
 
 func (fr fakeRepo) Set(ctx context.Context, key string, value interface{}) error {
@@ -45,27 +44,6 @@ func (fr fakeRepo) Delete(ctx context.Context, key string) error {
 func (fr fakeRepo) FlushCache(ctx context.Context) error {
 	return fr.FlushCacheFn(ctx)
 }
-
-/*
-func (fr *fakeRepo) GetAll(ctx context.Context) ([]basic.User, error){
-	 return fr.GetAllFn(ctx)
- }
-func (fr *fakeRepo) GetByID(ctx context.Context, id int) (basic.User, error){
-	return fr.GetByIDFn(ctx,id)
-}
-func (fr *fakeRepo) Exists(ctx context.Context, id int) bool{
-	return fr.ExistsFn(ctx,id)
-}
-func (fr *fakeRepo) Store(ctx context.Context, u basic.User) (basic.User, error){
-	return fr.StoreFn(ctx,u)
-}
-func (fr *fakeRepo) Update(ctx context.Context, u basic.User) error{
-	return fr.UpdateFn(ctx,u)
-}
-func (fr *fakeRepo) Delete(ctx context.Context, id int) error{
-	return fr.DeleteFn(ctx,id)
-}
- */
 
 func TestNewRepository(t *testing.T) {
 	r := NewRepository(kvs.Config{Name: ""})
