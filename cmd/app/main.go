@@ -1,26 +1,17 @@
 package main
 
 import (
+	"github.com/diegodileoML/practice_CDB/cmd/config"
 	"github.com/diegodileoML/practice_CDB/pkg/domain/basic"
 	"github.com/diegodileoML/practice_CDB/pkg/repository/kvs"
 	"github.com/diegodileoML/practice_CDB/pkg/rest"
 	rest2 "github.com/diegodileoML/practice_CDB/pkg/rest/reader"
-
-	kvs2 "github.com/mercadolibre/fury_asset-mgmt-core-libs/pkg/repository/kvs"
-
 )
 
 func main() {
-	/*
-	_ = godotenv.Load()
-	username := os.Getenv("MYSQL_USER")
-	password := os.Getenv("MYSQL_PASSWORD")
-	host := os.Getenv("MYSQL_HOST")
-	port := os.Getenv("MYSQL_PORT")
-	*/
+	conf := config.Get()
 
-
-	userRepo := kvs.NewRepository(kvs2.Config{})
+	userRepo := kvs.NewRepository(conf.Service.Kvs)
 	userCont := basic.Container{
 		Storage: userRepo,
 	}

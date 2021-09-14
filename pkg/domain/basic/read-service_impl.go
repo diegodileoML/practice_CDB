@@ -11,6 +11,9 @@ func (s *service) GetByID(ctx context.Context, id string) (*User, error) {
 	return usuario, nil
 }
 
+/*
 func (s *service) Exists(ctx context.Context, id string) bool {
 	return s.Storage.Exists(ctx, id)
 }
+
+ */

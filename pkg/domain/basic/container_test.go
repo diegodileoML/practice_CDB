@@ -20,7 +20,7 @@ func NewFakeContainer() *fakeContainer{
 
 type fakeStorage struct{
 	GetByIDFn func(ctx context.Context, id string) (*User, error)
-	ExistsFn func(ctx context.Context, id string) bool
+	//ExistsFn func(ctx context.Context, id string) bool
 	StoreFn func(ctx context.Context, u *User) error
 	UpdateFn func(ctx context.Context, u User) error
 	DeleteFn func(ctx context.Context, id string) error
@@ -29,10 +29,12 @@ type fakeStorage struct{
 func (r *fakeStorage) GetByID(ctx context.Context, id string) (*User, error){
 	return r.GetByIDFn(ctx,id)
 }
-
+/*
 func (r *fakeStorage) Exists(ctx context.Context, id string) bool{
 	return r.ExistsFn(ctx,id)
 }
+
+ */
 
 func (r *fakeStorage) Store(ctx context.Context, u *User) error{
 	return r.StoreFn(ctx,u)

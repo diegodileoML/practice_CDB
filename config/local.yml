@@ -1,0 +1,14 @@
+services:
+
+  lock:
+    name: LOCK
+    ttl: 6000
+
+  kvs:
+    name: practice_CDB
+    read_timeout_ms: 19
+    write_timeout_ms: 19
+    read_tries: 19
+    write_tries: 19
+    delete_tries: 19
+    default_ttl: 19

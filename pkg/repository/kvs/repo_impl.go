@@ -17,7 +17,7 @@ func (r repository) GetByID(ctx context.Context, id string) (*basic.User, error)
 	return user.ToDomain(),nil
 
 }
-
+/*
 func (r repository) Exists(ctx context.Context, id string) bool {
 	err := r.repo.Get(ctx, id,nil)
 	if err!=nil {
@@ -25,6 +25,8 @@ func (r repository) Exists(ctx context.Context, id string) bool {
 	}
 	return true
 }
+
+ */
 
 func (r repository) Store(ctx context.Context, u *basic.User) error {
 	return r.repo.Set(ctx,u.ID,userFromDomain(*u))

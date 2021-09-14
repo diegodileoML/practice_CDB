@@ -38,8 +38,20 @@ func TestRepository_GetByID_Error(t *testing.T) {
 		return errors.New("get-user-error")
 	}
 
-	cdb, err := r.GetByID(ctx, "1")
+	user, err := r.GetByID(ctx, "1")
 
-	assert.Nil(t, cdb)
+	assert.Nil(t, user)
 	assert.EqualError(t, err, "get-user-error")
+}
+
+func TestRepository_Store_Error(t *testing.T) {
+	ctx,r,fr:= IniciarDependenciasRepo()
+
+	fr.SetFn = func(ctx context.Context, key string, value interface{}) error {
+		return errors.New("store-user-error")
+	}
+	usr := basic.User{}
+	err := r.Store(ctx,&usr)
+
+	assert.EqualError(t,err,"store-user-error")
 }
